@@ -1,0 +1,20 @@
+{
+  "name": "koa-cms-api",
+  "version": "1.0.0",
+  "description": "基于koa的后台api服务器",
+  "main": "index.js",
+  "scripts": {
+    "test": "node ./test/test.js"
+  },
+  "author": "howxin",
+  "license": "ISC",
+  "dependencies": {
+    "async-validator": "^1.8.5",
+    "knex": "^0.15.2",
+    "koa": "^2.5.2",
+    "koa-bodyparser": "^4.2.1",
+    "koa-router": "^7.4.0",
+    "koa-session": "^5.8.3",
+    "underscore": "^1.9.1"
+  }
+}
