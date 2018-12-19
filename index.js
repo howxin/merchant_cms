@@ -5,7 +5,7 @@ const Koa = require('koa');
 const bodyParser = require('koa-bodyparser');
 const config = require('./lib/config.js');
 const controller = require('./lib/controller.js');
-const {ERRORS} = require('./lib/constants.js');
+const { ERRORS } = require('./lib/constants.js');
 const request = require('./middlewares/request.js');
 const response = require('./middlewares/response.js');
 const Session = require('./middlewares/session.js');
@@ -17,13 +17,13 @@ const APPNAME = process.APPNAME || 'default';
 // 设置项目配置
 const envconf = require(path.join(__dirname, `./config/envconf/${ENV}_${APPNAME}.json`));
 const descriptor = {
-    'koa-logger': {type: 'boolean', required: true},
+    'koa-logger': { type: 'boolean', required: true },
     server: {
         type: 'object',
         required: true,
         fields: {
-            ip: {type: 'string', required: true},
-            port: {type: 'number', required: true},
+            ip: { type: 'string', required: true },
+            port: { type: 'number', required: true },
         }
     },
 };
@@ -65,7 +65,7 @@ common.validate(descriptor, envconf).then(() => {
 
         // controller(app);
         app.use((require('./controller/login.js').routes()));
-        app.use((require('./controller/user.js').routes()));
+        app.use((require('./controller/profile.js').routes()));
 
         // error handler
         app.on('error', (err, ctx) => {
@@ -83,7 +83,7 @@ common.validate(descriptor, envconf).then(() => {
                 console.error('createServer catch error =>', err);
             }
         });
-        const {ip, port} = config['server'];
+        const { ip, port } = config['server'];
         server.listen(port, ip, () => {
             console.log(`listening ip[${ip}] port[${port}]`);
         });

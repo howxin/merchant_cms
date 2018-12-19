@@ -1,6 +1,6 @@
 "use strict";
-const {APIERRORS} = require('../lib/constants.js');
-const {InternalError} = require('../lib/Interrupt.js');
+const { APIERRORS } = require('../lib/constants.js');
+const { InternalError } = require('../lib/Interrupt.js');
 const common = require('../utils/common.js');
 
 module.exports = async function (ctx, next) {
@@ -13,7 +13,7 @@ module.exports = async function (ctx, next) {
             if (value === undefined) {
                 Object.assign(ctx.state.data, key);
             } else {
-                Object.assign(ctx.state.data, {[key]: value});
+                Object.assign(ctx.state.data, { [key]: value });
             }
         };
         await next();
@@ -24,12 +24,13 @@ module.exports = async function (ctx, next) {
                 errmsg: 'method no found'
             }
         } else {
-            ctx.body = ctx.body ? ctx.body : {
+            ctx.body = !!ctx.body ? ctx.body : {
                 status: 'ok',
                 data: ctx.state.data
             }
         }
     } catch (err) {
+        console.error('error =>', err);
         // 设置状态码为 200 - 服务端错误
         ctx.status = 200;
         // 输出详细的错误信息

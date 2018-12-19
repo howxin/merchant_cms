@@ -1,5 +1,6 @@
 "use strict";
 const ModelBase = require('../lib/ModelBase.js');
+const common = require('../utils/common.js');
 
 class User extends ModelBase {
     constructor() {
@@ -47,6 +48,18 @@ class User extends ModelBase {
     updateUserInfoById(trx, id, data) {
         const me = this;
         Object.assign(data, {updated: Date.now()});
+        return me._checkTrx(trx)
+            .update(me._objectToDb(data))
+            .where(me._objectToDb({id}));
+    }
+
+    updateSessionById(trx, id, session_id, session_expired) {
+        const me = this;
+        const data = {
+            session_id,
+            session_expired,
+            updated: Date.now()
+        };
         return me._checkTrx(trx)
             .update(me._objectToDb(data))
             .where(me._objectToDb({id}));

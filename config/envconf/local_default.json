@@ -10,7 +10,7 @@
       "host": "127.0.0.1",
       "user": "root",
       "password": "123456",
-      "database": "cms"
+      "database": "merchant_cms"
     },
     "debug": true,
     "pool": {"min": 0, "max": 10},
@@ -19,6 +19,7 @@
   "session": {
     "key": "SESSION_ID",
     "maxAge": 3600000,
+    "minAge": 1800000,
     "overwrite": true,
     "httpOnly": true,
     "signed": false,

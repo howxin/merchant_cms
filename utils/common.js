@@ -4,6 +4,7 @@ const path = require('path');
 const crypto = require('crypto');
 const _ = require('underscore');
 const schema = require('async-validator');
+const { InvalidParams } = require('../lib/Interrupt');
 
 class Common {
 
@@ -22,6 +23,26 @@ class Common {
         }
 
         _readdirSync(dirPath);
+        return files;
+    }
+
+    mapFile(dirPath) {
+        const files = [];
+        (function _readdirSync(_dirPath) {
+            fs.readdirSync(_dirPath).forEach(p => {
+                let filePath = path.join(path.join(_dirPath, p));
+                if (fs.statSync(filePath).isDirectory()) {
+                    _readdirSync(filePath);
+                } else {
+                    let file = {
+                        name: p.replace(/\.[^.]*/, ''),
+                        ext: p.replace(/.+\./, ''),
+                        path: filePath
+                    }
+                    files.push(file);
+                }
+            });
+        })(dirPath);
         return files;
     }
 
@@ -114,6 +135,27 @@ class Common {
                 resolve(true);
             });
         });
+    }
+
+    dateTime(date) {
+        if (!!date && date instanceof Date)
+            throw new InvalidParams();
+        return date.getFullYear() + '-' +
+            (date.getMonth() + 1 < 10 ? '0' : '') + (date.getMonth() + 1) + '-' +
+            (date.getDate() < 10 ? '0' : '') + date.getDate() + ' ' +
+            (date.getHours() < 10 ? '0' : '') + date.getHours() + ':' +
+            (date.getMinutes() < 10 ? '0' : '') + date.getMinutes() + ':' +
+            (date.getSeconds() < 10 ? '0' : '') + date.getSeconds();
+    }
+
+    now() {
+        const date = new Date();
+        return date.getFullYear() + '-' +
+            (date.getMonth() + 1 < 10 ? '0' : '') + (date.getMonth() + 1) + '-' +
+            (date.getDate() < 10 ? '0' : '') + date.getDate() + ' ' +
+            (date.getHours() < 10 ? '0' : '') + date.getHours() + ':' +
+            (date.getMinutes() < 10 ? '0' : '') + date.getMinutes() + ':' +
+            (date.getSeconds() < 10 ? '0' : '') + date.getSeconds();
     }
 }
 
