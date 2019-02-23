@@ -17,9 +17,10 @@ class Product extends ModelBase {
             .where(me._objectToDb({id}));
     }
 
-    async getProductList(trx, fields = '*', cond, orderBy = {'id': 'ASC'}, limit = {}) {
+    async getProductList(trx, fields = '*', cond = {}, orderBy = {'id': 'ASC'}, limit = {}) {
         const me = this;
         const db = me._checkTrx(trx);
+        orderBy = me._objectToDb(orderBy);
         for (let key in orderBy) {
             db.orderBy(key, orderBy[key]);
         }

@@ -157,6 +157,15 @@ class Common {
             (date.getMinutes() < 10 ? '0' : '') + date.getMinutes() + ':' +
             (date.getSeconds() < 10 ? '0' : '') + date.getSeconds();
     }
+
+    empty(val) {
+        return (val === undefined || val === null);
+    }
+
+    uniq(arr) {
+        return _.uniq(arr);
+    }
+
 }
 
 module.exports = new Common();

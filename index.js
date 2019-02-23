@@ -31,6 +31,7 @@ common.validate(descriptor, envconf).then(() => {
     try {
         config.set(envconf);
         const app = new Koa();
+        console.log(app)
         // app.keys = ['some secret hurr'];
         app.context.model = require('./lib/model.js');
         app.context.common = require('./utils/common.js');
@@ -62,6 +63,12 @@ common.validate(descriptor, envconf).then(() => {
 
         // session
         app.use(Session(app, config['session']));
+
+        app.use(async (ctx, next) => {
+            ctx.dbTrx = null;
+            await next();
+
+        });
 
         // controller(app);
         app.use((require('./controller/login.js').routes()));
